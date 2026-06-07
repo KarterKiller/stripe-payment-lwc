@@ -235,16 +235,16 @@ HTTP callout to the MuleSoft endpoint `/payment/create-session`. Returns the Str
 ![LWC Stage Warning](screenshots/screenshot01-lwc.png)
 
 ### LWC — Payment link generated
-![LWC Result](screenshots/screenshot02-statut.ready.png)
+![LWC Result](screenshots/screenshot02-statut-ready.png)
 
 ### LWC — Stripe checkout page
-![Stripe Page](screenshots/screenshot03-link.ready.png)
+![Stripe Page](screenshots/screenshot03-link-ready.png)
 
 ### LWC — Payment confirmed on Stripe
 ![Stripe Payment](screenshots/screenshot04-stripe-page-payment.png)
 
 ### LWC — Opportunity Closed Won
-![LWC Closed Won](screenshots/screenshot05-lwc.closed.won.png)
+![LWC Closed Won](screenshots/screenshot05-lwc-closed-won.png)
 
 ---
 
