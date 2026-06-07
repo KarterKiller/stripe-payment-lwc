@@ -140,7 +140,7 @@ Modifier cette URL si l'app MuleSoft est redéployée sur un nouveau domaine Clo
 ![LWC Closed Won](screenshots/screenshot04-stripe-page-payment.png)
 
 ### LWC — Opportunity Closed Won
-![LWC Closed Won](screenshots/screenshot05-lwc.closed-won.png)
+![LWC Closed Won](screenshots/screenshot05-lwc-closed-won.png)
 
 ---
 
