@@ -131,16 +131,16 @@ Modifier cette URL si l'app MuleSoft est redéployée sur un nouveau domaine Clo
 ![LWC Generate](screenshots/screenshot01-lwc.png)
 
 ### LWC — Lien généré avec timeline
-![LWC Result](screenshots/screenshot02-statut.ready.png)
+![LWC Result](screenshots/screenshot02-statut-ready.png)
 
 ### LWC — Opportunity Closed Won
-![LWC Closed Won](screenshots/screenshot03-link.ready.png)
+![LWC Closed Won](screenshots/screenshot03-link-ready.png)
 
 ### LWC — Opportunity Closed Won
 ![LWC Closed Won](screenshots/screenshot04-stripe-page-payment.png)
 
 ### LWC — Opportunity Closed Won
-![LWC Closed Won](screenshots/screenshot05-lwc.closed.won.png)
+![LWC Closed Won](screenshots/screenshot05-lwc.closed-won.png)
 
 ---
 
