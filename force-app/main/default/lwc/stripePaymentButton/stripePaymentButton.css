@@ -1,3 +1,4 @@
+/* ===== BASE ===== */
 .payment-card {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     border-radius: 12px;
@@ -6,12 +7,39 @@
     background: white;
 }
 
+/* ===== HEADER avec shimmer ===== */
 .card-header {
     background: linear-gradient(135deg, #032d60 0%, #0070d2 50%, #635bff 100%);
+    background-size: 200% 200%;
     padding: 16px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+    overflow: hidden;
+    animation: gradientShift 4s ease infinite;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: shimmer 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 200%; }
 }
 
 .stripe-icon {
@@ -52,6 +80,7 @@
     font-weight: 500;
 }
 
+/* ===== INFO GRID ===== */
 .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -88,6 +117,7 @@
     color: #635bff;
 }
 
+/* ===== BOUTON avec pulse ===== */
 .generate-btn {
     width: calc(100% - 40px);
     margin: 20px;
@@ -105,18 +135,28 @@
     transition: all 0.2s;
     box-shadow: 0 4px 12px rgba(99,91,255,0.3);
     font-family: inherit;
+    animation: pulse 2.5s ease infinite;
 }
 
 .generate-btn:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(99,91,255,0.4);
+    animation: none;
 }
 
 .generate-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    animation: none;
 }
 
+@keyframes pulse {
+    0% { box-shadow: 0 4px 12px rgba(99,91,255,0.3); }
+    50% { box-shadow: 0 4px 24px rgba(99,91,255,0.6), 0 0 0 6px rgba(99,91,255,0.1); }
+    100% { box-shadow: 0 4px 12px rgba(99,91,255,0.3); }
+}
+
+/* ===== SPINNER ===== */
 .spinner {
     width: 16px;
     height: 16px;
@@ -131,12 +171,25 @@
     to { transform: rotate(360deg); }
 }
 
+/* ===== RESULT BOX avec slideIn ===== */
 .result-box {
     margin: 20px 20px 0;
     background: #f0fdf4;
     border: 1px solid #86efac;
     border-radius: 10px;
     padding: 16px;
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .result-header {
@@ -158,6 +211,12 @@
     color: white;
     font-weight: 700;
     flex-shrink: 0;
+    animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 .result-title {
@@ -227,11 +286,11 @@
     box-shadow: 0 4px 8px rgba(99,91,255,0.3);
 }
 
+/* ===== TIMELINE avec animation progressive ===== */
 .timeline {
     display: flex;
     align-items: center;
     padding: 16px 20px 20px;
-    gap: 0;
 }
 
 .timeline-step {
@@ -256,11 +315,29 @@
 .step-dot.done {
     background: #22c55e;
     color: white;
+    animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+.step-dot.done:nth-child(1) { animation-delay: 0s; }
+.step-dot.done:nth-child(2) { animation-delay: 0.15s; }
+.step-dot.done:nth-child(3) { animation-delay: 0.3s; }
+.step-dot.done:nth-child(4) { animation-delay: 0.45s; }
+.step-dot.done:nth-child(5) { animation-delay: 0.6s; }
 
 .step-dot.pending {
     background: #e5e7eb;
     color: #9ca3af;
+}
+
+.step-dot.active {
+    background: #635bff;
+    color: white;
+    animation: blink 1.8s ease infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(99,91,255,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(99,91,255,0.1); }
 }
 
 .step-label {
@@ -276,28 +353,26 @@
     height: 2px;
     margin-bottom: 14px;
     min-width: 12px;
+    transition: background 0.3s ease;
 }
 
 .timeline-line.done {
     background: #22c55e;
+    animation: lineGrow 0.4s ease both;
 }
 
 .timeline-line.pending {
     background: #e5e7eb;
 }
 
-.error-box {
-    margin: 0 20px 20px;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 12px;
-    color: #dc2626;
+@keyframes lineGrow {
+    from { transform: scaleX(0); transform-origin: left; }
+    to { transform: scaleX(1); transform-origin: left; }
 }
 
+/* ===== CLOSED WON BOX ===== */
 .closed-won-box {
-    margin: 20px;
+    margin: 20px 20px 0;
     background: #f0fdf4;
     border: 1px solid #86efac;
     border-radius: 8px;
@@ -308,8 +383,10 @@
     font-size: 13px;
     font-weight: 500;
     color: #15803d;
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ===== STAGE WARNING ===== */
 .stage-warning {
     margin: 16px 20px 20px;
     background: #fffbeb;
@@ -319,4 +396,17 @@
     font-size: 12px;
     color: #92400e;
     font-weight: 500;
+    animation: slideIn 0.3s ease;
+}
+
+/* ===== ERROR BOX ===== */
+.error-box {
+    margin: 0 20px 20px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #dc2626;
+    animation: slideIn 0.3s ease;
 }
