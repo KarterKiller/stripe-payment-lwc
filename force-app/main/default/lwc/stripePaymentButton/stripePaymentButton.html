@@ -1,0 +1,161 @@
+<template>
+    <template if:true={isClosedWon}>
+        <div class="payment-card">
+            <div class="card-header">
+                <div class="stripe-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C4.975 23.124 7.995 24 11.39 24c2.614 0 4.765-.596 6.277-1.813 1.606-1.28 2.445-3.134 2.445-5.442 0-4.13-2.529-5.851-6.136-7.595z"/>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <span class="header-title">Lien de paiement Stripe</span>
+                    <span class="header-sub">via MuleSoft CloudHub</span>
+                </div>
+                <div class="powered-badge">Powered by Stripe</div>
+            </div>
+            <div class="closed-won-box">
+                <div class="check-circle">✓</div>
+                <span>Paiement déjà encaissé — Opportunity Closed Won</span>
+            </div>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="step-dot done">✓</div>
+                    <span class="step-label">Salesforce</span>
+                </div>
+                <div class="timeline-line done"></div>
+                <div class="timeline-step">
+                    <div class="step-dot done">✓</div>
+                    <span class="step-label">MuleSoft</span>
+                </div>
+                <div class="timeline-line done"></div>
+                <div class="timeline-step">
+                    <div class="step-dot done">✓</div>
+                    <span class="step-label">Stripe</span>
+                </div>
+                <div class="timeline-line done"></div>
+                <div class="timeline-step">
+                    <div class="step-dot done">✓</div>
+                    <span class="step-label">Paiement</span>
+                </div>
+                <div class="timeline-line done"></div>
+                <div class="timeline-step">
+                    <div class="step-dot done">✓</div>
+                    <span class="step-label">Closed Won</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template if:false={isClosedWon}>
+        <div class="payment-card">
+
+            <div class="card-header">
+                <div class="stripe-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C4.975 23.124 7.995 24 11.39 24c2.614 0 4.765-.596 6.277-1.813 1.606-1.28 2.445-3.134 2.445-5.442 0-4.13-2.529-5.851-6.136-7.595z"/>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <span class="header-title">Lien de paiement Stripe</span>
+                    <span class="header-sub">via MuleSoft CloudHub</span>
+                </div>
+                <div class="powered-badge">Powered by Stripe</div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Montant</span>
+                    <span class="info-value amount">{amount} €</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Client</span>
+                    <span class="info-value">{opportunityName}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Devise</span>
+                    <span class="info-value">EUR</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Stage</span>
+                    <span class="info-value">{stage}</span>
+                </div>
+            </div>
+
+            <template if:false={checkoutUrl}>
+                <template if:true={canGeneratePayment}>
+                    <button class={generateBtnClass} onclick={handleGenerate} disabled={isLoading}>
+                        <template if:false={isLoading}>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="margin-right:8px;">
+                                <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C4.975 23.124 7.995 24 11.39 24c2.614 0 4.765-.596 6.277-1.813 1.606-1.28 2.445-3.134 2.445-5.442 0-4.13-2.529-5.851-6.136-7.595z"/>
+                            </svg>
+                            Générer le lien de paiement
+                        </template>
+                        <template if:true={isLoading}>
+                            <div class="spinner"></div>
+                            Génération en cours...
+                        </template>
+                    </button>
+                </template>
+                <template if:false={canGeneratePayment}>
+                    <div class="stage-warning">
+                        ⚠️ Le lien de paiement est disponible à partir du stade Proposal/Price Quote
+                    </div>
+                </template>
+            </template>
+
+            <template if:true={checkoutUrl}>
+                <div class="result-box">
+                    <div class="result-header">
+                        <div class="check-circle">✓</div>
+                        <span class="result-title">Lien généré avec succès</span>
+                    </div>
+                    <div class="url-box">
+                        <span class="url-text">{checkoutUrl}</span>
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn-secondary" onclick={handleCopy}>
+                            📋 Copier le lien
+                        </button>
+                        <button class="btn-primary" onclick={handleOpen}>
+                            ↗ Ouvrir Stripe
+                        </button>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-dot done">✓</div>
+                        <span class="step-label">Salesforce</span>
+                    </div>
+                    <div class="timeline-line done"></div>
+                    <div class="timeline-step">
+                        <div class="step-dot done">✓</div>
+                        <span class="step-label">MuleSoft</span>
+                    </div>
+                    <div class="timeline-line done"></div>
+                    <div class="timeline-step">
+                        <div class="step-dot done">✓</div>
+                        <span class="step-label">Stripe</span>
+                    </div>
+                    <div class="timeline-line pending"></div>
+                    <div class="timeline-step">
+                        <div class="step-dot pending">⏳</div>
+                        <span class="step-label">Paiement</span>
+                    </div>
+                    <div class="timeline-line pending"></div>
+                    <div class="timeline-step">
+                        <div class="step-dot pending">○</div>
+                        <span class="step-label">Closed Won</span>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="error-box">
+                    ❌ {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </template>
+</template>
